@@ -43,6 +43,20 @@ public class BankAccount {
         }
         this.balance -= amount;
     }
+    
+    // 결제 기능 (비밀번호 검사, 결제 한도 검사 적용)
+    public void payment(long amount, String inputPassword) {
+    	// 비밀번호가 틀렸을 경우 오류 발생
+    	if (!checkPassword(inputPassword)) {
+    		throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+    	}
+    	// 1회 결제 한도(500만원)를 넘기면 오류 발생
+    	if (amount > 5000000) {
+    		throw new IllegalArgumentException("1회 결제 한도 500만원을 초과했습니다.");
+    	}
+		// 오류가 발생하지 않았다면 결제 진행
+    	withdraw(amount);
+    }
 
     // 계좌 이체 기능
     public void transfer(BankAccount targetAccount, long amount) {
