@@ -1,0 +1,25 @@
+    // 계좌 이체 기능
+    public void transfer(BankAccount targetAccount, long amount) {
+        
+        // [단계 1] 잘못된 요청 차단하기 (안전장치)
+        if (targetAccount == null) {
+            throw new IllegalArgumentException("보낼 계좌 번호가 올바르지 않습니다.");
+        }
+        if (this == targetAccount) {
+            throw new IllegalArgumentException("나 자신에게는 이체할 수 없습니다.");
+        }
+        if (amount <= 0) {
+            throw new IllegalArgumentException("이체할 금액은 0원보다 많아야 합니다.");
+        }
+
+        // [단계 2] 내 계좌에서 돈 빼기
+        // 이미지 58번 줄에 있는 withdraw 기능을 그대로 가져다 씁니다.
+        this.withdraw(amount);
+
+        // [단계 3] 상대방 계좌에 돈 넣어주기
+        // 상대방(targetAccount)의 입금 기능을 실행합니다.
+        targetAccount.deposit(amount);
+        
+        // 이체 완료 메시지 출력
+        System.out.println("이체가 완료되었습니다.");
+    }
